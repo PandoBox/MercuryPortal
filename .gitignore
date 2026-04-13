@@ -1,0 +1,31 @@
+# Gradle files
+.gradle/
+build/
+*.apk
+*.aab
+*.ap_
+*.dex
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build outputs
+local.properties
+.cxx/
+
+# Kotlin
+.kotlin/
+
+# Project specific
+sample data/

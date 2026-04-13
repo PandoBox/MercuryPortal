@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">Mercury Messenger</string>
+
+    <!-- Auth -->
+    <string name="login_title">Messenger Portal</string>
+    <string name="login_email_hint">Employee ID or Email</string>
+    <string name="login_password_hint">Password</string>
+    <string name="login_button">Sign In</string>
+
+    <!-- Home -->
+    <string name="home_clock_in">Clock In</string>
+    <string name="home_clock_out">Clock Out</string>
+    <string name="home_day_closing">Day Closing</string>
+    <string name="home_view_jobs">View All Jobs</string>
+
+    <!-- Job Status -->
+    <string name="status_assigned">Assigned</string>
+    <string name="status_departed">Departed</string>
+    <string name="status_arrived">Arrived</string>
+    <string name="status_in_progress">In Progress</string>
+    <string name="status_completed">Completed</string>
+    <string name="status_reassign_requested">Re-assign Requested</string>
+
+    <!-- Job Actions -->
+    <string name="action_depart">Depart</string>
+    <string name="action_arrived">Mark Arrived</string>
+    <string name="action_start">Start Job</string>
+    <string name="action_complete">Complete Job</string>
+    <string name="action_request_reassign">Request Re-assign</string>
+    <string name="action_call_sender">Call Sender</string>
+    <string name="action_call_receiver">Call Receiver</string>
+
+    <!-- Camera -->
+    <string name="camera_capture">Capture Photo</string>
+    <string name="camera_retake">Retake</string>
+    <string name="camera_confirm">Confirm</string>
+    <string name="camera_required_note">Photo required — use camera only</string>
+
+    <!-- Offline -->
+    <string name="offline_badge">Recorded offline</string>
+    <string name="synced_badge">Synced</string>
+
+    <!-- Day Closing -->
+    <string name="day_closing_title">Day Closing</string>
+    <string name="day_closing_gps_log">GPS Activity Log</string>
+    <string name="day_closing_confirm">Confirm Day Close</string>
+
+    <!-- Errors -->
+    <string name="error_location_unavailable">Location unavailable — GPS required</string>
+    <string name="error_camera_failed">Camera failed. Please retry.</string>
+    <string name="error_generic">Something went wrong. Please try again.</string>
+</resources>

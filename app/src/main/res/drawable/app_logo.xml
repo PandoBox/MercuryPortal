@@ -1,0 +1,23 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="100dp"
+    android:viewportWidth="200"
+    android:viewportHeight="100">
+    
+    <!-- 3 Orange Streaks -->
+    <path
+        android:fillColor="#F47A22"
+        android:pathData="M 20,20 L 100,20 L 95,28 L 15,28 Z"/>
+    <path
+        android:fillColor="#F47A22"
+        android:pathData="M 30,40 L 110,40 L 105,48 L 25,48 Z"/>
+    <path
+        android:fillColor="#F47A22"
+        android:pathData="M 40,60 L 120,60 L 115,68 L 35,68 Z"/>
+
+    <!-- Blue Aerodynamic Shape -->
+    <path
+        android:fillColor="#00609C"
+        android:pathData="M 110,10 C 150,5 180,20 180,40 C 180,70 140,85 100,85 C 80,85 80,45 110,10 Z"/>
+
+</vector>
