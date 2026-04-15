@@ -12,4 +12,5 @@ sealed class Screen(val route: String) {
             "camera/$jobId/$logId/$requirePhoto"
     }
     data object DayClosing : Screen("day_closing")
+    data object Dashboard : Screen("dashboard")
 }

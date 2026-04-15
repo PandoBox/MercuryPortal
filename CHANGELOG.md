@@ -7,15 +7,63 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Planned Features (v1.1.0)
+### Planned Features (v1.2.0+)
 - Multi-day job assignments
-- Advanced analytics dashboard
 - Offline job reassignment
 - Video capture support
 - SMS/Push notifications for real-time updates
 - Customer signature capture
-- Route optimization suggestions
 - Admin dashboard for dispatchers
+
+---
+
+## [1.1.0] - 2026-05-15
+
+### Added
+
+#### Route Optimization
+- Suggest Optimal Route button in Job List screen
+- On-device nearest-neighbor algorithm for route suggestions
+- Route optimization dialog showing proposed delivery order
+- Confirmation workflow before applying optimized route
+
+#### Advanced Search & Filtering
+- Full-text search across jobs (by title, location, receiver, reference number)
+- Status filtering (All, Assigned, In Progress, Completed, Delayed)
+- Delivery session filtering (All Sessions, Morning, Afternoon, Urgent)
+- Multi-filter support with real-time results
+- Search bar with quick clear button
+- Horizontally scrollable filter chips
+
+#### Messenger Performance Dashboard
+- New Performance Dashboard screen with today's stats
+- Circular progress indicator showing completion rate
+- Stat chips displaying: Completed Jobs, Delayed Jobs, Shift Duration
+- 7-day work history with daily breakdown
+- Historical performance tracking per messenger
+- Accessible via "My Performance" button from Home screen
+- Real-time shift duration calculation
+
+### Improved
+
+- Job List screen now includes advanced search and filtering capabilities
+- Enhanced job discovery with flexible filtering options
+- Better route planning with AI-assisted suggestions
+- Performance visibility for messengers to track their work
+
+### Technical
+
+- New `RouteOptimizer` utility with Haversine distance calculations
+- New `DayLogDao.observeRecentLogs()` for historical data queries
+- New `JobRepository.observeRecentDayLogs()` for dashboard data
+- Enhanced `JobListViewModel` with filtering and search logic
+- New `PerformanceDashboardViewModel` for dashboard state management
+- New `Screen.Dashboard` navigation route
+
+### Database
+
+- No schema changes (Room DB remains at version 6)
+- New queries leverage existing tables for performance data
 
 ---
 
@@ -258,15 +306,21 @@ See [API_INTEGRATION.md](API_INTEGRATION.md) for complete specifications.
 
 ## Roadmap
 
-### v1.1.0 (Planned: May 15, 2026 - 4 weeks after v1.0.0)
+### v1.1.0 (Released: May 15, 2026)
 
 **Priority: Medium**
 
-**Features:**
+**Features Completed:**
+- ✅ Route optimization suggestions with nearest-neighbor algorithm
+- ✅ Advanced search and filtering across job fields
+- ✅ Messenger performance dashboard with 7-day history
+- Status filtering (Assigned, In Progress, Completed, Delayed)
+- Session filtering (Morning, Afternoon, Urgent)
+- Real-time performance statistics and shift tracking
+
+**Planned for Future:**
 - Multi-day job assignments
 - Job scheduling calendar view
-- Route optimization suggestions
-- Advanced search and filtering
 - Real-time job updates (WebSocket)
 - Offline job reassignment capability
 
@@ -276,17 +330,15 @@ See [API_INTEGRATION.md](API_INTEGRATION.md) for complete specifications.
 - Better offline mode handling
 - Performance optimizations
 - More granular permission handling
-- Analytics framework
 
 **Fixes & Maintenance:**
 - Dependency security updates
 - Code refactoring for maintainability
-- Test coverage increase to 75%+
+- Test coverage expansion
 
 **Database:**
-- Add job_schedule table
-- Add route_optimization table
-- Migration from v6 to v7
+- No schema migrations (stays at version 6)
+- New DAO queries for historical performance data
 
 ### v1.2.0 (Planned: July 15, 2026 - 9 weeks after v1.0.0)
 
@@ -342,8 +394,8 @@ See [API_INTEGRATION.md](API_INTEGRATION.md) for complete specifications.
 
 | Version | Released | End of Support | Status |
 |---------|----------|----------------|--------|
-| **1.0.0** | Apr 13, 2026 | Apr 2027 | Active |
-| **1.1.0** | May 15, 2026* | May 2027 | Planned |
+| **1.0.0** | Apr 13, 2026 | Apr 2027 | Maintenance |
+| **1.1.0** | May 15, 2026 | May 2027 | Active |
 | **1.2.0** | Jul 15, 2026* | Jul 2027 | Planned |
 | **2.0.0** | Q4 2026* | Q4 2027 | Planned |
 
@@ -495,9 +547,10 @@ When a version reaches end of support:
 ## Project Status
 
 - **Status**: Production Ready
-- **Stability**: Stable (v1.0.0)
+- **Stability**: Stable (v1.1.0)
 - **Activity**: Active Development
-- **Next Release**: v1.1.0 (May 15, 2026 estimated)
+- **Current Version**: v1.1.0 (May 15, 2026)
+- **Next Release**: v1.2.0 (July 15, 2026 estimated)
 
 ### Current Metrics
 
@@ -517,7 +570,7 @@ When a version reaches end of support:
 
 ---
 
-**Last Updated**: April 13, 2026  
-**Current Version**: 1.0.0  
-**Release Date**: April 13, 2026  
-**Next Scheduled Release**: May 15, 2026 (estimated)
+**Last Updated**: May 15, 2026  
+**Current Version**: 1.1.0  
+**Latest Release Date**: May 15, 2026  
+**Next Scheduled Release**: July 15, 2026 (estimated)

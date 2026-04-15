@@ -2,13 +2,16 @@ package com.mercury.messengerportal.ui.joblist
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.Route
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -44,10 +47,20 @@ fun JobListScreen(
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
+                actions = {
+                    // Optimize Route button - only show if there are 2+ active jobs
+                    val activeJobCount = state.jobs.filter { it.status != JobStatus.COMPLETED && it.status != JobStatus.DELAYED }.size
+                    if (activeJobCount >= 2) {
+                        IconButton(onClick = { viewModel.suggestOptimalRoute() }) {
+                            Icon(Icons.Default.Route, contentDescription = "Optimize route", tint = MaterialTheme.colorScheme.onPrimary)
+                        }
+                    }
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = MaterialTheme.colorScheme.onPrimary,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
+                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
+                    actionIconContentColor = MaterialTheme.colorScheme.onPrimary
                 )
             )
         }
@@ -55,17 +68,6 @@ fun JobListScreen(
         if (state.isLoading) {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator()
-            }
-            return@Scaffold
-        }
-
-        if (state.jobs.isEmpty()) {
-            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(
-                    "No jobs assigned today",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
-                )
             }
             return@Scaffold
         }
@@ -89,6 +91,15 @@ fun JobListScreen(
             state.jobs.filter { it.status == JobStatus.COMPLETED }.sortedBy { it.sequenceOrder }
         }
 
+        // Check if results are empty due to no jobs assigned or due to search/filter
+        val hasSearchOrFilter = state.searchQuery.isNotEmpty()
+        val isEmpty = state.jobs.isEmpty()
+        val emptyMessage = if (hasSearchOrFilter) {
+            "No jobs matched your search"
+        } else {
+            "No jobs assigned today"
+        }
+
         val viewConfig = LocalViewConfiguration.current
         val customViewConfig = remember(viewConfig) {
             object : ViewConfiguration by viewConfig {
@@ -98,11 +109,74 @@ fun JobListScreen(
         }
 
         CompositionLocalProvider(LocalViewConfiguration provides customViewConfig) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding)
-            ) {
+            if (isEmpty) {
+                // Empty state with search bar
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(padding)
+                ) {
+                    OutlinedTextField(
+                        value = state.searchQuery,
+                        onValueChange = { viewModel.onSearchQueryChanged(it) },
+                        placeholder = { Text("Search jobs...", style = MaterialTheme.typography.bodySmall) },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 12.dp, vertical = 4.dp)
+                            .height(44.dp),
+                        singleLine = true,
+                        textStyle = MaterialTheme.typography.bodySmall,
+                        leadingIcon = {
+                            Text("🔍", modifier = Modifier.size(20.dp))
+                        },
+                        trailingIcon = {
+                            if (state.searchQuery.isNotEmpty()) {
+                                IconButton(onClick = { viewModel.onSearchQueryChanged("") }, modifier = Modifier.size(28.dp)) {
+                                    Text("✕")
+                                }
+                            }
+                        }
+                    )
+
+                    // Empty state message
+                    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        Text(
+                            emptyMessage,
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+                        )
+                    }
+                }
+            } else {
+                // Normal state with job list
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(padding)
+                ) {
+                    // Search Bar (thinner - reduced padding)
+                    OutlinedTextField(
+                        value = state.searchQuery,
+                        onValueChange = { viewModel.onSearchQueryChanged(it) },
+                        placeholder = { Text("Search jobs...", style = MaterialTheme.typography.bodySmall) },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 12.dp, vertical = 4.dp)
+                            .height(44.dp),
+                        singleLine = true,
+                        textStyle = MaterialTheme.typography.bodySmall,
+                        leadingIcon = {
+                            Text("🔍", modifier = Modifier.size(20.dp))
+                        },
+                        trailingIcon = {
+                            if (state.searchQuery.isNotEmpty()) {
+                                IconButton(onClick = { viewModel.onSearchQueryChanged("") }, modifier = Modifier.size(28.dp)) {
+                                    Text("✕")
+                                }
+                            }
+                        }
+                    )
+
                 LazyColumn(
                     state = listState,
                     modifier = Modifier
@@ -228,16 +302,79 @@ fun JobListScreen(
                     }
                 }
             }
-            Text(
-                "💡 Tip: Long-press any job to drag and re-arrange.\nJobs in the same location share the same highlight color.",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
-                modifier = Modifier.fillMaxWidth().padding(16.dp),
-                textAlign = androidx.compose.ui.text.style.TextAlign.Center
-            )
+                    Text(
+                        "💡 Tip: Long-press any job to drag and re-arrange.\nJobs in the same location share the same highlight color.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                        modifier = Modifier.fillMaxWidth().padding(16.dp),
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                    )
+                }
             }
         }
     }
+
+    // Route Optimization Dialog
+    if (state.showRouteDialog && state.suggestedOrder.isNotEmpty()) {
+        RouteOptimizationDialog(
+            suggestedOrder = state.suggestedOrder,
+            onConfirm = { viewModel.confirmRouteOptimization() },
+            onDismiss = { viewModel.dismissRouteDialog() }
+        )
+    }
+}
+
+@Composable
+private fun RouteOptimizationDialog(
+    suggestedOrder: List<Job>,
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Suggested Optimal Route") },
+        text = {
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                itemsIndexed(suggestedOrder) { index, job ->
+                    // Only show active jobs (not terminal jobs)
+                    if (job.status != JobStatus.COMPLETED && job.status != JobStatus.DELAYED) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            Text(
+                                "${index + 1}",
+                                style = MaterialTheme.typography.bodyMedium,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier.size(24.dp),
+                                textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                            )
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(job.locationName, fontWeight = FontWeight.SemiBold)
+                                Text(job.receiverName, style = MaterialTheme.typography.bodySmall)
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            Button(onClick = onConfirm) {
+                Text("Apply Route")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Cancel")
+            }
+        }
+    )
 }
 
 @Composable

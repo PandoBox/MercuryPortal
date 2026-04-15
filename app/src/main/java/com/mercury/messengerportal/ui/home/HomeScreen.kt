@@ -34,6 +34,7 @@ fun HomeScreen(
     onViewJobs: () -> Unit,
     onDayClosing: () -> Unit,
     onDepartJob: (String) -> Unit = {},
+    onOpenDashboard: () -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -210,6 +211,17 @@ fun HomeScreen(
                 Icon(Icons.Default.NightShelter, contentDescription = null)
                 Spacer(Modifier.width(8.dp))
                 Text("Day Review | Day Closing", fontWeight = FontWeight.SemiBold)
+            }
+
+            // My Performance Button
+            OutlinedButton(
+                onClick = onOpenDashboard,
+                modifier = Modifier.fillMaxWidth().height(48.dp),
+                enabled = state.isClockedIn || state.completedCount > 0
+            ) {
+                Icon(Icons.Default.BarChart, contentDescription = null)
+                Spacer(Modifier.width(8.dp))
+                Text("My Performance", fontWeight = FontWeight.SemiBold)
             }
 
             if (!state.isClockedIn) {

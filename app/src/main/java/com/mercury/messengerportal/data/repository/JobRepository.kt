@@ -280,6 +280,13 @@ class JobRepository @Inject constructor(
         return dayLogDao.observeTodayLog(messengerId, today).map { it?.toDomain() }
     }
 
+    /**
+     * Observes recent day logs for the messenger (for performance dashboard).
+     * Returns the last [limit] days (default 7) in descending order (most recent first).
+     */
+    fun observeRecentDayLogs(messengerId: String, limit: Int = 7): Flow<List<DayLog>> =
+        dayLogDao.observeRecentLogs(messengerId, limit).map { list -> list.map { it.toDomain() } }
+
     // ── Day Closing GPS Trail ─────────────────────────────────────────────────
 
     suspend fun buildGpsTrail(messengerId: String): List<GpsEvent> {

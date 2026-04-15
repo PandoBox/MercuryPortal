@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.mercury.messengerportal.ui.camera.CameraScreen
+import com.mercury.messengerportal.ui.dashboard.PerformanceDashboardScreen
 import com.mercury.messengerportal.ui.dayclosing.DayClosingScreen
 import com.mercury.messengerportal.ui.home.HomeScreen
 import com.mercury.messengerportal.ui.jobdetail.JobDetailScreen
@@ -37,7 +38,8 @@ fun MercuryNavGraph(
             HomeScreen(
                 onViewJobs = { navController.navigate(Screen.JobList.route) },
                 onDayClosing = { navController.navigate(Screen.DayClosing.route) },
-                onDepartJob = { jobId -> navController.navigate(Screen.JobDetail.createRoute(jobId)) }
+                onDepartJob = { jobId -> navController.navigate(Screen.JobDetail.createRoute(jobId)) },
+                onOpenDashboard = { navController.navigate(Screen.Dashboard.route) }
             )
         }
 
@@ -96,6 +98,12 @@ fun MercuryNavGraph(
                         popUpTo(0) { inclusive = true }
                     }
                 },
+                onBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(Screen.Dashboard.route) {
+            PerformanceDashboardScreen(
                 onBack = { navController.popBackStack() }
             )
         }

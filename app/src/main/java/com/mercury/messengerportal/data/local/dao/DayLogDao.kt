@@ -13,6 +13,9 @@ interface DayLogDao {
     @Query("SELECT * FROM day_logs WHERE messengerId = :messengerId AND date = :date LIMIT 1")
     suspend fun getTodayLog(messengerId: String, date: String): DayLogEntity?
 
+    @Query("SELECT * FROM day_logs WHERE messengerId = :messengerId ORDER BY date DESC LIMIT :limit")
+    fun observeRecentLogs(messengerId: String, limit: Int = 7): Flow<List<DayLogEntity>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(dayLog: DayLogEntity)
 
