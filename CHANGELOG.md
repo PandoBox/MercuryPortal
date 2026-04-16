@@ -8,6 +8,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Planned Features (v1.2.0+)
+
+#### Internationalization (i18n) - v1.2.0
+- Multi-language support (English / Thai)
+- Language switching menu in settings
+- Persistent language preference with DataStore
+- Localization of all UI text strings
+- Optional font size adjustment for accessibility
+- Regional date/time formatting
+
+#### Job Scoring System - v1.2.0
+- Backend-provided job scores
+- Score display on job list and job detail screens
+- Score-based job prioritization recommendations
+- Dashboard integration:
+  - Average job score calculation for today
+  - Score trends in 7-day history
+  - Quality metrics alongside completion metrics
+- Score visualization (rating/stars or numeric)
+
+#### Additional Planned Features
 - Multi-day job assignments
 - Offline job reassignment
 - Video capture support
@@ -345,17 +365,37 @@ See [API_INTEGRATION.md](API_INTEGRATION.md) for complete specifications.
 **Priority: Medium**
 
 **Features:**
+
+#### Internationalization (i18n)
+- Multi-language support: English (EN) and Thai (TH)
+- In-app language switcher in settings menu
+- Persistent language preference storage
+- Complete UI localization for all screens
+- Regional date/time formatting based on language
+- Optional font size adjustment for accessibility
+
+#### Job Scoring System
+- Backend-provided job quality/difficulty scores
+- Score display on Job List (per job)
+- Score display on Job Detail screen
+- Dashboard integration:
+  - Today's average job score metric
+  - 7-day average score trend
+  - Quality metrics visualization
+- Score-based job recommendation/prioritization
+
+#### Additional Features
 - Video capture support (in addition to photos)
 - Customer signature capture
 - SMS/Push notifications for job updates
 - SMS for delivery confirmation
-- Messenger performance dashboard
 - Admin dashboard for dispatchers (web portal)
 
 **Improvements:**
 - Dark mode support
 - Accessibility enhancements (a11y)
-- Internationalization (i18n) foundation
+- Enhanced location accuracy
+- Better offline mode reliability
 
 **Platform Expansion:**
 - Web dashboard for dispatchers

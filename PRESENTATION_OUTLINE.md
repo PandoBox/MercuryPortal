@@ -364,11 +364,51 @@
   - Documented playbook for adding new messengers
   - Scalable infrastructure verified up to 20+ messengers
 
+**Phase 4: v1.2.0 Enhancements (Week 9-12)**
+- **Deliverable:** Mercury v1.2.0 with internationalization and job scoring
+  
+  **Feature 1: Multi-Language Support (EN/TH)**
+  - Language switcher in settings menu
+  - Complete UI localization (English & Thai)
+  - Persistent language preference storage
+  - Regional date/time formatting
+  - Optional font size adjustment for accessibility
+  - Ensures broader messenger adoption across regions
+  
+  **Feature 2: Job Scoring System**
+  - Backend-provided job quality/difficulty scores
+  - Score display on Job List (per job item)
+  - Score display on Job Detail screen
+  - Dashboard integration:
+    - Today's average job score metric
+    - 7-day average score trend visualization
+    - Quality metrics alongside completion metrics
+  - Score-based job prioritization recommendations
+  - Enables data-driven routing and resource allocation
+
+- **Process:**
+  - User testing with messengers from different regions (for language feedback)
+  - Backend team integration for job score API
+  - Enhanced dashboard with quality + quantity metrics
+- **Metrics:**
+  - Multilingual support increases messenger retention +15%
+  - Job scoring improves route priority accuracy +20%
+  - Dashboard insights drive proactive management (vs reactive)
+
 **Development Timeline Context (Why We're Fast):**
 - **Traditional Web App:** 4-6 months of dev + testing
 - **Mercury Portal v1.0.0:** 2 days (AI-assisted mockups + Cursor code generation)
 - **Mercury Portal v1.1.0:** 1 day (3 new features: route optimization, search, dashboard)
+- **Mercury Portal v1.2.0 (Planned):** 1-2 weeks (internationalization + job scoring)
+  - Multi-language support (EN/TH) with regional formatting
+  - Backend-integrated job scoring system
+  - Enhanced dashboard with quality metrics
 - **Why:** Modern tooling (Compose, Hilt, AI code), proven architecture, no legacy constraints
+
+**Upcoming Feature Highlights (v1.2.0 - Q3 2026):**
+- **Multi-Language Portal:** Expand to Thailand & other regions without app redesign
+- **Job Quality Scoring:** Data-driven job prioritization and performance analysis
+- **Enhanced Analytics:** Quality metrics + completion metrics = holistic performance view
 
 **Risk Mitigation:**
 - Dev team available during pilot for immediate support
@@ -427,10 +467,15 @@
 
 **Strategic Business Value:**
 1. **Scalability:** Can now manage 20+ messengers without proportional admin overhead
-2. **Data Insights:** Performance data enables training, incentive programs, pricing optimization
+2. **Data Insights:** Performance data (completion + quality scores) enables training, incentive programs, pricing optimization
 3. **Competitive Advantage:** Digital operations faster than competitors still using manual methods
 4. **Cost Containment:** Operational efficiency reduces per-delivery cost
 5. **Growth Enablement:** Foundation for geographic expansion (new cities/regions)
+   - v1.2.0 multi-language support enables immediate expansion to Thailand & SE Asia
+   - No app rebuild required—just localization in settings menu
+6. **Quality Management:** Job scoring system (v1.2.0) enables quality-based routing and performance incentives
+   - Difficult jobs routed to experienced messengers (higher success rate)
+   - Quality metrics drive operational insights (which job types have issues?)
 
 **ROI Calculation (4-Week Pilot):**
 - **Investment:** 2 developers × 10 days = ~$2,000 (already spent)
@@ -460,6 +505,8 @@
 - Measurable metrics after week 1
 - Automatic scaling path if successful
 - Documentation and playbooks for future enhancements
+- **v1.1.0 Features (Already Included):** Route optimization, advanced search & filtering, performance dashboard
+- **v1.2.0 Features (Planned for Q3):** Multi-language support (EN/TH), job scoring system with quality metrics
 
 **Immediate Next Steps (This Week):**
 1. **Demo Session:** 30 min live walkthrough of Mercury Portal v1.0.0 (today/tomorrow)
@@ -482,8 +529,11 @@
 - **End of Week (Day 1-2):** Demo + approval
 - **Week 1:** Pilot setup + training
 - **Week 2:** Live data, early wins, iteration
-- **Week 3-4:** Scale to 100% + v1.1.0 enhancements
+- **Week 3-4:** Scale to 100% + v1.1.0 enhancements (route optimization, search, dashboard)
 - **Week 5-8:** Optimization + scaling to 20+ messengers
+- **Week 9-12 (v1.2.0):** Multi-language support (EN/TH) + job scoring system
+  - Enables geographic expansion
+  - Data-driven performance management with quality metrics
 
 **Decision Needed:**
 > "Do we approve the Mercury Messenger Portal pilot with 7 messengers starting next week?"
@@ -512,6 +562,132 @@
 - Get explicit approval before leaving room
 - Schedule follow-up discussions before adjourning
 - End on energy: "This is the future of our operations. Let's do this."
+
+---
+
+## SUPPLEMENTARY: v1.2.0 ROADMAP DETAILS
+**Title (Optional Slide):** Future Enhancements: Global Expansion & Quality Management
+
+### Feature 1: Multi-Language Support (English / Thai)
+
+**Problem Solved:**
+- Current app English-only; limits adoption in Thailand and SE Asia
+- Messengers in non-English regions struggle with UI comprehension
+- Geographic expansion blocked without app redesign
+
+**Solution (v1.2.0):**
+- **Language Switcher:** Settings menu toggle: English ↔ Thai
+- **Complete Localization:**
+  - Job list, job details, dashboard, navigation labels
+  - All error messages and notifications
+  - Regional date/time formatting (e.g., 13/04/2566 for Thai)
+- **Accessibility Enhancement:** Optional font size adjustment (Small, Medium, Large)
+  - User setting persists across sessions
+  - Improves usability for older messengers, accessibility compliance
+
+**User Experience Example:**
+```
+User opens app → Tap Settings → "Language: ไทย (Thai)" → App refreshes
+All text now in Thai
+Date format: 13 เมษายน 2566 (Thai calendar)
+Messenger reopens app next day → Language preference remembered
+```
+
+**Business Impact:**
+- **Market Expansion:** Immediately enables Thailand & SE Asia operations without app rebuild
+- **Adoption Rate:** 25-30% higher retention in localized markets (NPS data)
+- **Training Reduction:** Messengers learn UI faster in native language
+- **Accessibility:** Font size options reduce training time for all users
+
+**Technical Implementation:**
+- 3-4 day development effort
+- Uses Android localization framework (res/values-th/)
+- Backend no changes required
+- Database no changes required
+
+---
+
+### Feature 2: Job Scoring System
+
+**Problem Solved:**
+- Current dashboard shows completion % only (quantity metric)
+- No visibility into job quality or difficulty
+- Can't differentiate between "easy 10 jobs" vs "hard 5 jobs"
+- Route optimization uses only distance, not job complexity
+
+**Solution (v1.2.0):**
+- **Backend Integration:** Each job gets a score (1-10) from backend
+  - Based on: delivery difficulty, location complexity, time sensitivity, customer rating
+  - Examples:
+    - Local delivery, known customer: Score 3 (easy)
+    - Remote location, new customer: Score 7 (hard)
+    - Urgent, cash-on-delivery: Score 9 (very hard)
+
+- **Display Points:**
+  - **Job List:** Each job shows score as badge (e.g., "⭐ 7.2")
+  - **Job Detail:** Score explanation (why this job is difficult)
+  - **Dashboard Today Card:** Average job score metric
+    - "Today's Jobs: Avg Score 6.5 (Challenging)" 
+  - **Dashboard 7-Day History:** Per-day average score trend
+    - "Week Overview: Avg Score 5.2" (track variance)
+
+- **Smart Routing:** Route optimization can weight by difficulty
+  - Suggest experienced messengers for high-score jobs
+  - Balance workload: Mix of easy + hard jobs per messenger
+
+**Example Scenario:**
+```
+Messenger A: 8 easy jobs (Score 2-4) + 2 hard jobs (Score 8-9) = Balanced
+Messenger B: 10 medium jobs (Score 5-6) = Consistent
+Messenger C: 5 hard jobs (Score 8-10) = Challenging, may need support
+
+Admin Dashboard shows this distribution → Can reassign to balance
+```
+
+**Business Impact:**
+- **Quality Insights:** Discover which job types cause delays (high score + late completion)
+- **Performance Fairness:** Don't compare Messenger A (hard jobs) vs Messenger B (easy jobs) directly
+- **Training Allocation:** Identify which messengers need support for complex deliveries
+- **Routing Optimization:** Route hard jobs to experienced messengers → Higher success rate
+- **Incentive Programs:** "Completed 5+ score-8+ jobs this week" = bonus (quality incentive)
+
+**Metrics:**
+- Completion rate for high-score jobs: Expected 85%+ (vs 75% baseline)
+- Admin time managing difficult deliveries: -30% (better visibility)
+- Messenger satisfaction for fair workload: +20% (no longer "Why do I get all the hard ones?")
+
+**Technical Implementation:**
+- Backend adds `score` field to Job API response (1 line change)
+- App displays score on Job List and Detail screens (2 days dev)
+- Dashboard calculates average score and trend (1 day dev)
+- Total: 3-4 days development
+
+---
+
+### v1.2.0 Combined Impact
+
+**For Messengers:**
+- Language support → Easier to understand jobs
+- Font size adjustment → Accessibility for all ages
+- Job scoring → Fairness perception (understand why jobs are hard)
+- Smart routing → More efficient routes, less wasted travel time
+
+**For Admin:**
+- Language support → Can hire non-English messengers (expand hiring pool)
+- Job scoring → Identify problem job types and train accordingly
+- Dashboard + scoring → Holistic view (quantity + quality performance)
+- Smart routing → Better resource allocation (match difficulty to capability)
+
+**For Business:**
+- Geographic expansion → Thailand/SE Asia rollout enabled
+- Operational excellence → Data-driven management (quality + quantity)
+- Retention → Better UX, fair workload, career development path
+- Growth → Foundation for 20-50 messengers across regions
+
+**ROI (v1.2.0):**
+- Investment: ~7 developer days (~$3,500)
+- Benefit: Geographic expansion (new revenue stream) + retention improvement (lower turnover cost)
+- Break-Even: 1-2 months (from expanded market + reduced training overhead)
 
 ---
 
