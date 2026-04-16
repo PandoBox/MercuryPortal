@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.TextUnit
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mercury.messengerportal.domain.model.DayLog
@@ -34,7 +35,22 @@ fun PerformanceDashboardScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("TODAY", fontWeight = FontWeight.SemiBold, fontSize = 16.sp) },
+                title = {
+                    Column {
+                        Text(
+                            "${state.messengerId} - ${state.messengerName}",
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 14.sp,
+                            color = Color(0xFF8A95A6)
+                        )
+                        Text(
+                            "TODAY",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp,
+                            color = Color.White
+                        )
+                    }
+                },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
@@ -76,13 +92,14 @@ fun PerformanceDashboardScreen(
                 item {
                     Column(
                         modifier = Modifier.fillMaxWidth(),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
                         Text(
                             "Past 7 Days",
                             style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold,
+                            fontWeight = FontWeight.SemiBold,
                             color = Color.White,
+                            fontSize = 16.sp,
                             modifier = Modifier.padding(horizontal = 4.dp)
                         )
 
@@ -132,9 +149,9 @@ private fun TodayPerformanceCard(
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
             .background(Color(0xFF252D3D))
-            .padding(32.dp),
+            .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(28.dp)
+        verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         // Top label "MERCURY"
         Text(
@@ -142,21 +159,21 @@ private fun TodayPerformanceCard(
             style = MaterialTheme.typography.labelSmall,
             color = Color(0xFF8A95A6),
             fontWeight = FontWeight.SemiBold,
-            fontSize = 12.sp,
-            letterSpacing = 1.5.sp
+            fontSize = 11.sp,
+            letterSpacing = 1.sp
         )
 
         // Large Circular Progress (Whoop style - 200dp)
         Box(
-            modifier = Modifier.size(200.dp),
+            modifier = Modifier.size(180.dp),
             contentAlignment = Alignment.Center
         ) {
             // Background circle
             CircularProgressIndicator(
                 progress = { 1f },
-                modifier = Modifier.size(200.dp),
+                modifier = Modifier.size(180.dp),
                 color = Color(0xFF3A4557),
-                strokeWidth = 10.dp,
+                strokeWidth = 9.dp,
                 strokeCap = StrokeCap.Round,
                 trackColor = Color.Transparent
             )
@@ -164,9 +181,9 @@ private fun TodayPerformanceCard(
             // Progress circle
             CircularProgressIndicator(
                 progress = { completionRate / 100f },
-                modifier = Modifier.size(200.dp),
+                modifier = Modifier.size(180.dp),
                 color = progressColor,
-                strokeWidth = 10.dp,
+                strokeWidth = 9.dp,
                 strokeCap = StrokeCap.Round,
                 trackColor = Color.Transparent
             )
@@ -174,11 +191,11 @@ private fun TodayPerformanceCard(
             // Center text
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                verticalArrangement = Arrangement.spacedBy(2.dp)
             ) {
                 Text(
                     "${completionRate.toInt()}%",
-                    fontSize = 64.sp,
+                    fontSize = 56.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White
                 )
@@ -186,7 +203,7 @@ private fun TodayPerformanceCard(
                     "Completion",
                     style = MaterialTheme.typography.labelSmall,
                     color = Color(0xFF8A95A6),
-                    fontSize = 12.sp
+                    fontSize = 11.sp
                 )
             }
         }
@@ -197,7 +214,7 @@ private fun TodayPerformanceCard(
             style = MaterialTheme.typography.bodySmall,
             color = if (statusText == "Completed") progressColor else Color(0xFF8A95A6),
             fontWeight = FontWeight.SemiBold,
-            fontSize = 12.sp
+            fontSize = 11.sp
         )
 
         // Metrics breakdown (Whoop style)
@@ -206,15 +223,16 @@ private fun TodayPerformanceCard(
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(12.dp))
                 .background(Color(0xFF1F2634))
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp)
+                .padding(14.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             // Completed
             MetricRow(
                 icon = "✓",
                 label = "Completed",
                 value = "${todayStats.completedCount}",
-                valueColor = Color(0xFF00D97E)
+                valueColor = Color(0xFF00D97E),
+                fontSize = 10.sp
             )
 
             Divider(color = Color(0xFF3A4557), thickness = 0.5.dp)
@@ -224,7 +242,8 @@ private fun TodayPerformanceCard(
                 icon = "⏱",
                 label = "Duration",
                 value = todayStats.shiftDurationFormatted,
-                valueColor = Color.White
+                valueColor = Color.White,
+                fontSize = 10.sp
             )
 
             Divider(color = Color(0xFF3A4557), thickness = 0.5.dp)
@@ -234,7 +253,8 @@ private fun TodayPerformanceCard(
                 icon = "⚠",
                 label = "Delayed",
                 value = "${todayStats.delayedCount}",
-                valueColor = if (todayStats.delayedCount > 0) Color(0xFFFF6B6B) else Color(0xFF00D97E)
+                valueColor = if (todayStats.delayedCount > 0) Color(0xFFFF6B6B) else Color(0xFF00D97E),
+                fontSize = 10.sp
             )
         }
 
@@ -249,17 +269,17 @@ private fun TodayPerformanceCard(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(12.dp),
+                    .padding(10.dp),
                 verticalAlignment = Alignment.Top,
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text("💡", fontSize = 18.sp, modifier = Modifier.padding(top = 2.dp))
+                Text("💡", fontSize = 16.sp, modifier = Modifier.padding(top = 1.dp))
                 Text(
                     insightMessage,
                     style = MaterialTheme.typography.bodySmall,
                     color = Color(0xFFC4D0DE),
-                    fontSize = 11.sp,
-                    lineHeight = 16.sp
+                    fontSize = 10.sp,
+                    lineHeight = 14.sp
                 )
             }
         }
@@ -271,7 +291,8 @@ private fun MetricRow(
     icon: String,
     label: String,
     value: String,
-    valueColor: Color
+    valueColor: Color,
+    fontSize: TextUnit = 12.sp
 ) {
     Row(
         modifier = Modifier
@@ -284,12 +305,12 @@ private fun MetricRow(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text(icon, fontSize = 16.sp)
+            Text(icon, fontSize = 14.sp)
             Text(
                 label,
                 style = MaterialTheme.typography.bodySmall,
                 color = Color(0xFF8A95A6),
-                fontSize = 11.sp
+                fontSize = 9.sp
             )
         }
         Text(
@@ -297,7 +318,7 @@ private fun MetricRow(
             style = MaterialTheme.typography.bodySmall,
             fontWeight = FontWeight.SemiBold,
             color = valueColor,
-            fontSize = 12.sp
+            fontSize = fontSize
         )
     }
 }
@@ -366,7 +387,7 @@ private fun PastDayCard(
 
             Text(
                 "${completionPercentage.toInt()}%",
-                fontSize = 12.sp,
+                fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
                 color = progressColor,
                 textAlign = TextAlign.Center
@@ -376,7 +397,7 @@ private fun PastDayCard(
         // Date and stats column
         Column(
             modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(6.dp)
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             // Date
             Text(
@@ -384,7 +405,7 @@ private fun PastDayCard(
                 style = MaterialTheme.typography.bodySmall,
                 fontWeight = FontWeight.SemiBold,
                 color = Color.White,
-                fontSize = 12.sp
+                fontSize = 13.sp
             )
 
             // Jobs completed
@@ -392,7 +413,7 @@ private fun PastDayCard(
                 "$completedCount jobs completed",
                 style = MaterialTheme.typography.labelSmall,
                 color = Color(0xFF8A95A6),
-                fontSize = 10.sp
+                fontSize = 11.sp
             )
         }
 

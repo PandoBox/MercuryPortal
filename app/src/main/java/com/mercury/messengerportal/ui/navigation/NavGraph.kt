@@ -39,7 +39,12 @@ fun MercuryNavGraph(
                 onViewJobs = { navController.navigate(Screen.JobList.route) },
                 onDayClosing = { navController.navigate(Screen.DayClosing.route) },
                 onDepartJob = { jobId -> navController.navigate(Screen.JobDetail.createRoute(jobId)) },
-                onOpenDashboard = { navController.navigate(Screen.Dashboard.route) }
+                onOpenDashboard = { navController.navigate(Screen.Dashboard.route) },
+                onLogout = {
+                    navController.navigate(Screen.Login.route) {
+                        popUpTo(0) { inclusive = true }
+                    }
+                }
             )
         }
 

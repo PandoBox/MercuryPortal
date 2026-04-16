@@ -15,6 +15,8 @@ import java.util.*
 import javax.inject.Inject
 
 data class DashboardUiState(
+    val messengerId: String = "",
+    val messengerName: String = "",
     val todayLog: DayLog? = null,
     val todayJobs: List<Job> = emptyList(),
     val recentLogs: List<DayLog> = emptyList(),
@@ -47,6 +49,12 @@ class PerformanceDashboardViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             authRepository.currentMessenger.filterNotNull().collect { messenger ->
+                _uiState.update {
+                    it.copy(
+                        messengerId = messenger.id,
+                        messengerName = messenger.name
+                    )
+                }
                 combine(
                     jobRepository.observeTodayLog(messenger.id),
                     jobRepository.observeJobs(messenger.id),

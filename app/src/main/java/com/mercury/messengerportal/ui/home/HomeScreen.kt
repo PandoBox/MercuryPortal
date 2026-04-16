@@ -35,6 +35,7 @@ fun HomeScreen(
     onDayClosing: () -> Unit,
     onDepartJob: (String) -> Unit = {},
     onOpenDashboard: () -> Unit = {},
+    onLogout: () -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -48,6 +49,7 @@ fun HomeScreen(
 
     var showClockInDialog by remember { mutableStateOf(false) }
     var hasPromptedClockIn by remember { mutableStateOf(false) }
+    var showMenuDropdown by remember { mutableStateOf(false) }
 
     LaunchedEffect(state.isClockedIn, state.isLoading) {
         if (!state.isLoading && !state.isClockedIn && state.todayLog == null && !hasPromptedClockIn) {
@@ -90,7 +92,7 @@ fun HomeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(Brush.horizontalGradient(listOf(MercuryNavyDark, MercuryNavy)))
-                    .padding(top = 48.dp, start = 20.dp, end = 20.dp, bottom = 20.dp)
+                    .padding(top = 48.dp, start = 20.dp, end = 12.dp, bottom = 20.dp)
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -110,21 +112,58 @@ fun HomeScreen(
                             fontWeight = FontWeight.Bold
                         )
                     }
-                    
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Image(
-                            painter = painterResource(id = R.drawable.app_logo),
-                            contentDescription = "Mercury App Logo",
-                            modifier = Modifier.width(60.dp).height(30.dp)
-                        )
-                        Spacer(Modifier.height(2.dp))
-                        Text(
-                            "MERCURY",
-                            style = MaterialTheme.typography.labelSmall,
-                            color = Color.White,
-                            fontWeight = FontWeight.ExtraBold,
-                            letterSpacing = 1.sp
-                        )
+
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Image(
+                                painter = painterResource(id = R.drawable.app_logo),
+                                contentDescription = "Mercury App Logo",
+                                modifier = Modifier.width(60.dp).height(30.dp)
+                            )
+                            Spacer(Modifier.height(2.dp))
+                            Text(
+                                "MERCURY",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = Color.White,
+                                fontWeight = FontWeight.ExtraBold,
+                                letterSpacing = 1.sp
+                            )
+                        }
+
+                        // Menu button with dropdown
+                        Box {
+                            IconButton(
+                                onClick = { showMenuDropdown = true },
+                                modifier = Modifier.size(40.dp)
+                            ) {
+                                Icon(
+                                    Icons.Default.MoreVert,
+                                    contentDescription = "Menu",
+                                    tint = Color.White
+                                )
+                            }
+
+                            DropdownMenu(
+                                expanded = showMenuDropdown,
+                                onDismissRequest = { showMenuDropdown = false },
+                                modifier = Modifier.width(120.dp)
+                            ) {
+                                DropdownMenuItem(
+                                    text = { Text("Log Out") },
+                                    onClick = {
+                                        showMenuDropdown = false
+                                        viewModel.logout()
+                                        onLogout()
+                                    },
+                                    leadingIcon = {
+                                        Icon(Icons.Default.Logout, contentDescription = null)
+                                    }
+                                )
+                            }
+                        }
                     }
                 }
             }

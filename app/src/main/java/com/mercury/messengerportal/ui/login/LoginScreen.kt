@@ -124,18 +124,18 @@ fun LoginScreen(
                         color = MercuryNavy
                     )
                     Text(
-                        text = "Use your Employee ID and password",
+                        text = "Use your User ID and password",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                     )
 
                     Spacer(Modifier.height(4.dp))
 
-                    // Employee ID field
+                    // User ID field
                     OutlinedTextField(
                         value = state.employeeId,
                         onValueChange = viewModel::onEmployeeIdChange,
-                        label = { Text("Employee ID") },
+                        label = { Text("User ID") },
                         leadingIcon = {
                             Icon(
                                 Icons.Default.Badge,
@@ -276,13 +276,13 @@ fun LoginScreen(
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         Text(
-                            text = "Dev mode — any Employee ID + password",
+                            text = "Dev mode — any User ID + password",
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.35f),
                             textAlign = TextAlign.Center
                         )
                         Text(
-                            text = "v1.0.0",
+                            text = "v1.1.0",
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.25f)
                         )
